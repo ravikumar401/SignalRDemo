@@ -3,15 +3,9 @@ CREATE DATABASE NotificationsDB
 go
 
 
-use NotificationsDB
-
-GO
-
-
 ALTER DATABASE NotificationsDB SET ENABLE_BROKER
 
 GO
-
 
 CREATE TABLE DemoUsers(
 
@@ -29,5 +23,3 @@ SELECT 'KUMAR',0
 
 
 SELECT * FROM DemoUsers
-
---UPDATE DemoUsers SET Status= 1 where UserId = 2
