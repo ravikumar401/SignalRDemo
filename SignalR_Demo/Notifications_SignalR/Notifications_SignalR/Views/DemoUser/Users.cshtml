@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+
+@Html.Hidden("Get", Url.Action("GetDemoUsers", "DemoUser"))
+
+<table id="tblUsers" class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>User Id</th>
+            <th>User Name</th>
+        </tr>
+    </thead>
+
+    <tbody id="tblbodyUsers"></tbody>
+</table>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+<script src="~/signalr/hubs" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        var cus = $.connection.userHub;
+        cus.client.GetDemoUsers = function () {
+            getUserData();
+        };
+        $.connection.hub.start();
+        getUserData();
+    });
+    function getUserData() {
+        var $tbluser = $('#tblbodyUsers');
+        $.ajax({
+          url: '@Url.Action("GetDemoUsers", "DemoUser")',
+            type: 'GET',
+            datatype: 'json',
+            contentType: "application/json;charset=utf-8",
+            cache: false,
+            success: function (data) {
+                $tbluser.empty();
+                $.each(data.listUsers, function (i, user) {
+                    $tbluser.append
+                        (
+                            '<tr>' +
+                            '<td>' + user.UserId + '</td>' +
+                            '<td>' + user.UserName + '</td>' +
+                            '<tr>'
+                        );
+                });
+            }
+        });
+    }
+</script>
